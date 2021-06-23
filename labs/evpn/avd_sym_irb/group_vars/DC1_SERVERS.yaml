@@ -1,0 +1,60 @@
+---
+port_profiles:
+  Tenant_A_pod1_clientA:
+    mode: trunk
+    vlans: "110"
+  Tenant_A_pod1_clientB:
+    mode: trunk
+    vlans: "111"
+  Tenant_A_pod2_clientA:
+    mode: trunk
+    vlans: "112"
+  Tenant_A_pod2_clientB:
+    mode: trunk
+    vlans: "113"
+
+servers:
+  server01:
+    rack: rack01
+    adapters:
+      - endpoint_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet5, Ethernet5]
+        switches: [DC1_LEAF1A, DC1_LEAF1B]
+        profile: Tenant_A_pod1_clientA
+        port_channel:
+          state: present
+          description: PortChannel5
+          mode: active
+  server02:
+    rack: rack01
+    adapters:
+      - endpoint_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet6, Ethernet6]
+        switches: [DC1_LEAF1A, DC1_LEAF1B]
+        profile: Tenant_A_pod1_clientB
+        port_channel:
+          state: present
+          description: PortChannel6
+          mode: active
+  server03:
+    rack: rack02
+    adapters:
+      - endpoint_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet5, Ethernet5]
+        switches: [DC1_L2_LEAF2A, DC1_L2_LEAF2B]
+        profile: Tenant_A_pod2_clientA
+        port_channel:
+          state: present
+          description: PortChannel5
+          mode: active
+  server04:
+    rack: rack02
+    adapters:
+      - endpoint_ports: [Eth1, Eth2]
+        switch_ports: [Ethernet6, Ethernet6]
+        switches: [DC1_L2_LEAF2A, DC1_L2_LEAF2B]
+        profile: Tenant_A_pod2_clientB
+        port_channel:
+          state: present
+          description: PortChannel6
+          mode: active

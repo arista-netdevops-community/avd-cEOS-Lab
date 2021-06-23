@@ -1,0 +1,43 @@
+all:
+  children:
+    AVD_LAB:
+      children:
+        DC1_FABRIC:
+          children:
+            DC1_SPINES:
+              hosts:
+                DC1_SPINE1:
+                  ansible_host: 172.100.100.2
+                DC1_SPINE2:
+                  ansible_host: 172.100.100.3
+            DC1_L3_LEAFS:
+              children:
+                DC1_LEAF1:
+                  hosts:
+                    DC1_LEAF1A:
+                      ansible_host: 172.100.100.4
+                    DC1_LEAF1B:
+                      ansible_host: 172.100.100.5
+                DC1_LEAF2:
+                  hosts:
+                    DC1_LEAF2A:
+                      ansible_host: 172.100.100.6
+                    DC1_LEAF2B:
+                      ansible_host: 172.100.100.7
+          vars:
+            ansible_connection: httpapi
+            ansible_httpapi_use_ssl: true
+            ansible_httpapi_validate_certs: false
+            ansible_user: admin
+            ansible_password: admin
+            ansible_become: true
+            ansible_become_method: enable
+            ansible_network_os: eos
+            ansible_httpapi_port: 443
+            ansible_python_interpreter: $(which python3)
+        DC1_TENANTS_NETWORKS:
+          children:
+            DC1_L3_LEAFS:
+        DC1_SERVERS:
+          children:
+            DC1_L3_LEAFS:
