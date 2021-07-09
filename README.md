@@ -127,11 +127,19 @@ Currently following labs are available
 
 1. EVPN Symmetric IRB (eBGP Overlay and eBGP Underlay) (2 Spine + 2 MLAG Leaf Pair + 2 L2 leaf + 4 Clients) [`labs/evpn/avd_sym_irb/`]
 
-<img src="images/avdirb.png" height="200">
+<img src="images/avdirb.png" height="250">
 
 2. EVPN Symmetric IRB (iBGP Overlay and OSFP Underlay) (2 Spine + 2 MLAG Leaf Pair + 4 Clients) [`labs/evpn/avd_sym_irb_ibgp`]
 
-<img src="images/avdirb-ibgp-ospf.png" height="200">
+<img src="images/avdirb-ibgp-ospf.png" height="250">
+
+3. EVPN Asymmetric IRB ( eBGP Overlay and eBGP Underlay ) (2 Spine + 2 MLAG Leaf Pair + 4 Clients) [`labs/evpn/avd_asym_irb`]
+
+<img src="images/avdasymirb.png" height="250">
+
+4 EVPN Centralized Anycast Gateway ( eBGP Overlay and eBGP Underlay ) ( 2 spine + 1 MLAG Compute leaf pair + 1 MLAG Service Leaf pair + 4 Clients ) [`labs/evpn/avd_central_any_gw`]
+
+<img src="images/avdcentralgw.png" height="250">
 
 3. More labs in progress
 
@@ -156,8 +164,8 @@ labs/evpn/avd_sym_irb
 │   ├── DC1_SERVERS.yaml
 │   ├── DC1_SPINES.yaml
 │   └── DC1_TENANTS_NETWORKS.yaml
-├── host_vars
-│   └── DC1_FABRIC.yaml
+├── host_l3_config
+│   └── l3_build.sh
 ├── inventory.yaml
 ├── playbooks
 │   └── fabric-deploy-config.yaml
@@ -195,7 +203,7 @@ containerlab inspect -t topology.yaml
 
 ***TIP***: For a graphical view of the topology using `containerlab graph -t topology.yaml`
 
-Wait for containers to come up, and login to check the baseline configuration generated using the `ceos.cf.tpl` 
+Wait for containers to come up, and login to check the baseline configuration generated using the `ceos.cf.tpl`
 
 ```shell
 $ ssh admin@172.100.100.4
@@ -282,7 +290,7 @@ Supported bonding modes are:
 - static
 - none (default)
 
-The teaming mode needs to be specified in the containerlab topology.yml file when deploying the fabric.
+The teaming mode needs to be specified in the containerlab `topology.yml` file when deploying the fabric.
 
 Example:
 
@@ -303,13 +311,19 @@ Example:
 
 #### L3 configuration
 
-Currently L3 configuration has to be done manually. Following example illustrates setting up:
+Currently L3 configuration can be done either:
 
-- VLAN ID
-- Interface IP and Netmask
-- Route to directly connected GW
+- Using the `labs/evpn/avd_<lab>/host_l3_config/l3_build.sh`. The shell script contains the command to configure the VLAN, IP address, Gateway route on the alpine hosts.
+  - If VLAN/SVIs (on the switch) are different from default templates please edit the `l3_build.sh` accordingly.
+  - If the container names are different please edit the same in `l3_build.sh`
+
+- Manually using the following steps:
 
 ```shell
+
+# Login to the container
+$ docker exec -it clab-avdirb-client1 /bin/sh
+
 # configure IP and VLAN
 / $ sudo vconfig add team0 110
 / $ sudo ifconfig team0.110 10.1.10.11 netmask 255.255.255.0
