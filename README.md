@@ -32,8 +32,8 @@ Clone the repository and ensure to have the required libraries and software inst
 - Python 3.6.8 or above
 - ansible 2.10.0 or above
 - arista.avd ansible collection (latest)
-- containerlab
-- arista.avd requirements
+- containerlab=1.14.4 (compatible)
+  - containerlab=1.15 (not compatible, required changes to be added soon)- arista.avd requirements
 - docker
 - Arista cEOS-Lab image
 - Alpine-host image
@@ -44,6 +44,8 @@ For arista.avd installation please refer to the [official](https://avd.sh/en/lat
 For containerlab installation please refer to the [official](https://containerlab.srlinux.dev/install/) documentation.
 
 For Python3, docker and ansible installation please refer to the installation guides based on the host OS.
+
+*NOTE* :warning: Currently the containerlab topology files in this repository are not containerlab=1.15 compatible.
 
 ### Installing Arista cEOS-Lab image
 
