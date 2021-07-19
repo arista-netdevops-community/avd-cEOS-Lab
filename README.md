@@ -33,7 +33,8 @@ Clone the repository and ensure to have the required libraries and software inst
 - ansible 2.10.0 or above
 - arista.avd ansible collection (latest)
 - containerlab=1.14.4 (compatible)
-  - containerlab=1.15 (not compatible, required changes to be added soon)- arista.avd requirements
+  - containerlab=1.15 (not compatible, required changes to be added in next release)
+- arista.avd requirements
 - docker
 - Arista cEOS-Lab image
 - Alpine-host image
