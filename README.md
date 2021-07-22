@@ -32,8 +32,8 @@ Clone the repository and ensure to have the required libraries and software inst
 - Python 3.6.8 or above
 - ansible 2.10.0 or above
 - arista.avd ansible collection (latest)
-- containerlab=1.14.4 (compatible)
-  - containerlab=1.15 (not compatible, required changes to be added in next release)
+- containerlab=0.14.4 (last supported release [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases))
+- containerlab=0.15 ( release [`v2.0.0`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) and above )
 - arista.avd requirements
 - docker
 - Arista cEOS-Lab image
@@ -46,7 +46,7 @@ For containerlab installation please refer to the [official](https://containerla
 
 For Python3, docker and ansible installation please refer to the installation guides based on the host OS.
 
-*NOTE* :warning: Currently the containerlab topology files in this repository are not containerlab=1.15 compatible.
+**NOTE** :warning: Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.srlinux.dev/rn/0.15/). Latest release of this repository is containerlab v0.15 compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
 
 ### Installing Arista cEOS-Lab image
 
@@ -98,6 +98,8 @@ Alternatively you can use cEOS container as a host, or any other linux based con
 
 ### cEOS containerlab template
 
+**NOTE** :warning: This is no longer required starting containerlab v0.15. The v2.0.0 and above releases of this repository includes this template in the `topology.yaml` itself.
+
 Replace the containerlab cEOS default template with the `ceos.cfg.tpl` file from this repository.
 
 ```shell
@@ -113,7 +115,7 @@ This is to ensure the containers by default come up with:
 2. MGMT vrf for management connectivity
 3. eAPI enabled
 
-***NOTE*** If the default template is not replaced with the one from this repository, then for the intial AVD config replace you will observe a timeout error.
+**NOTE** For containerlab version less than v0.15, If the default template is not replaced with the one from this repository, then for the intial AVD config replace you will observe a timeout error.
 
 ## AWS AMI
 
