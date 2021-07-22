@@ -1,5 +1,8 @@
 # Arista Validated design with cEOS-lab
 
+![lab-version](https://img.shields.io/github/v/release/arista-netdevops-community/avd-cEOS-Lab?color=brightgreen&logo=appveyor&style=for-the-badge)
+![cEOS-AVD](https://img.shields.io/badge/AVD-cEOS-brightgreen?logo=appveyor&style=for-the-badge)
+
 - [Overview](#overview)
 - [Installation](#installation)
     - [Requirements](#requirements)
