@@ -3,9 +3,20 @@
 UPLINK='eth'
 
 # TMODE is expected to be set via the containerlab topology file prior to deployment
-# Expected values are "lacp" and "static" which will bond eth1 and eth2
+# Expected values are "lacp" or "static" or "active-backup" which will bond eth1 and eth2
 if [ -z "$TMODE" ]; then
   TMODE='none'
+fi
+
+# TACTIVE and TBACKUP to be set via the containerlab topology file for active-backup runner
+# expected values are "eth1" or "eth2" default is "eth1" active and "eth2" backup
+if [ -z "$TACTIVE" ]; then
+  TACTIVE='eth1'
+  TBACKUP='eth2'
+elif [ "$TACTIVE" == 'eth1' ]; then
+  TBACKUP='eth2'
+elif [ "$TACTIVE" == 'eth2' ]; then
+  TBACKUP='eth1'
 fi
 
 echo "teaming mode is " $TMODE
@@ -15,7 +26,7 @@ echo "teaming mode is " $TMODE
 #######################
 
 if [ "$(id -u)" != "0" ]; then
-  exec sudo --preserve-env=TMODE "$0" "$@"
+  exec sudo --preserve-env=TMODE,TACTIVE,TBACKUP "$0" "$@"
 fi
 
 ##########################
@@ -78,13 +89,31 @@ cat << EOF > /home/alpine/teamd-static.conf
 }
 EOF
 
+cat << EOF > /home/alpine/teamd-active-backup.conf
+{
+  "device": "team0",
+  "runner": {"name": "activebackup"},
+  "link_watch": {"name": "ethtool"},
+  "ports": {
+    "$TACTIVE": {
+      "prio": 100
+    },
+    "$TBACKUP": {
+      "prio": -10
+    }
+  }
+}
+EOF
+
 if [ "$TMODE" == 'lacp' ]; then
   TARG='/home/alpine/teamd-lacp.conf'
 elif [ "$TMODE" == 'static' ]; then
   TARG='/home/alpine/teamd-static.conf'
+elif [ "$TMODE" == 'active-backup' ]; then
+  TARG='/home/alpine/teamd-active-backup.conf'
 fi
 
-if [ "$TMODE" == 'lacp' ] || [ "$TMODE" == 'static' ]; then
+if [ "$TMODE" == 'lacp' ] || [ "$TMODE" == 'static' ] || [ "$TMODE" == 'active-backup' ]; then
   teamd -v
   teamd -k -f $TARG 
   ip link set eth1 down
