@@ -1,0 +1,25 @@
+- name: Build cEOS EVPN VXLAN All-active Multi-homing IRB Fabric (eBGP Overlay and eBGP Underlay)
+  hosts: DC1_FABRIC
+  tasks:
+    - name: build local folders
+      tags: [build]
+      import_role: 
+        name: arista.avd.build_output_folders
+      vars:
+        fabric_dir_name: '{{fabric_name}}'
+    
+    - name: generate intented variables
+      tags: [build]
+      import_role:
+        name: arista.avd.eos_designs
+    
+    - name: generate device intended config and documention
+      tags: [build]
+      import_role:
+        name: arista.avd.eos_cli_config_gen
+    
+    - name: deploy configuration to device
+      tags: [deploy]
+      import_role:
+         name: arista.avd.eos_config_deploy_eapi
+

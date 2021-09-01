@@ -24,7 +24,7 @@ This repository contains ansible playbooks which allow the user to quickly:
 1. Deploy cEOS-Lab Leaf Spine topology using [containerlab](https://containerlab.srlinux.dev/).
 2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/latest/index.html)
 
-The same AVD templates can also be used with vEOS-Lab and physical Lab switces with slight changes to management IP and VRF.
+The same AVD templates can also be used with vEOS-Lab and physical Lab switches with slight changes to management IP and VRF.
 
 ## Installation
 
@@ -35,13 +35,11 @@ Clone the repository and ensure to have the required libraries and software inst
 - Python 3.6.8 or above
 - ansible 2.10.0 or above
 - arista.avd ansible collection (latest)
-- containerlab=0.14.4 (last supported release [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases))
-- containerlab=0.15 ( release [`v2.0.0`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) and above )
+- containerlab
 - arista.avd requirements
 - docker
 - Arista cEOS-Lab image
 - Alpine-host image
-- Replace default cEOS container template
 
 For arista.avd installation please refer to the [official](https://avd.sh/en/latest/docs/installation/requirements.html) documenation.
 
@@ -49,7 +47,7 @@ For containerlab installation please refer to the [official](https://containerla
 
 For Python3, docker and ansible installation please refer to the installation guides based on the host OS.
 
-**NOTE** :warning: Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.srlinux.dev/rn/0.15/). Latest release of this repository is containerlab v0.15 compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
+**NOTE** :warning: Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.srlinux.dev/rn/0.15/). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository is containerlab v0.15 (and above) compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
 
 ### Installing Arista cEOS-Lab image
 
@@ -145,11 +143,13 @@ Currently following labs are available
 
 <img src="images/avdasymirb.png" height="250">
 
-4 EVPN Centralized Anycast Gateway ( eBGP Overlay and eBGP Underlay ) ( 2 spine + 1 MLAG Compute leaf pair + 1 MLAG Service Leaf pair + 4 Clients ) [`labs/evpn/avd_central_any_gw`]
+4. EVPN Centralized Anycast Gateway ( eBGP Overlay and eBGP Underlay ) ( 2 spine + 1 MLAG Compute leaf pair + 1 MLAG Service Leaf pair + 4 Clients ) [`labs/evpn/avd_central_any_gw`]
 
 <img src="images/avdcentralgw.png" height="250">
 
-3. More labs in progress
+5. EVPN VXLAN All-active Multi-homing IRB ( eBGP Overlay and eBGP Underlay ) (2 Spines + 4 PEs + 4 Clients)[`/labs/evpn/avd_asym_multihoming`]
+
+<img src="images/aa_asym_mh.png" height="250">
 
 ## Demo
 
@@ -211,7 +211,7 @@ containerlab inspect -t topology.yaml
 
 ***TIP***: For a graphical view of the topology using `containerlab graph -t topology.yaml`
 
-Wait for containers to come up, and login to check the baseline configuration generated using the `ceos.cf.tpl`
+Wait for containers to come up, and login to check the baseline configuration generated using the baseline template.
 
 ```shell
 $ ssh admin@172.100.100.4
@@ -296,6 +296,7 @@ Supported bonding modes are:
 
 - lacp
 - static
+- active-backup
 - none (default)
 
 The teaming mode needs to be specified in the containerlab `topology.yml` file when deploying the fabric.
@@ -315,7 +316,17 @@ Example:
       mgmt_ipv4: 172.100.100.11
       env:
         TMODE: static
+    client3:
+      kind: linux
+      mgmt_ipv4: 172.100.100.10
+      env:
+        TMODE: active-backup
+        TACTIVE: eth1
 ```
+
+`active-backup` mode is added for upcoming `EVPN Single-Active Multihoming` lab. 
+
+`TACTIVE` sets the active interface and the other interface (ex. `eth2`) will be automatically set to backup.
 
 #### L3 configuration
 
