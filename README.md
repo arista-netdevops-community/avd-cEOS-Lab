@@ -34,7 +34,7 @@ Clone the repository and ensure to have the required libraries and software inst
 
 - Python 3.6.8 or above
 - ansible 2.10.0 or above
-- arista.avd ansible collection (latest)
+- arista.avd ansible collection
 - containerlab
 - arista.avd requirements
 - docker
@@ -150,6 +150,14 @@ Currently following labs are available
 5. EVPN VXLAN All-active Multi-homing IRB ( eBGP Overlay and eBGP Underlay ) (2 Spines + 4 PEs + 4 Clients)[`/labs/evpn/avd_asym_multihoming`]
 
 <img src="images/aa_asym_mh.png" height="250">
+
+6. EVPN MPLS LDP All-Active Multihoming (L2EVPN) (iBGP Overlay and MPLS Underlay) (2 Ps + 4 PEs + 4 Clients)[`labs/mpls_ldp_evpn/mpls_ldp_l2evpn`]
+
+   EVPN All-Active Multihoming IRB with MPLS Underlay (iBGP Overlay and MPLS Underlay) (2 Ps + 4 PEs + 4 Clients)[`labs/mpls_ldp_evpn/mpls_evpn_irb`]
+   
+   `* using eos_cli_config_gen`
+
+<img src="images/mpls.png" height="250">
 
 ## Demo
 
