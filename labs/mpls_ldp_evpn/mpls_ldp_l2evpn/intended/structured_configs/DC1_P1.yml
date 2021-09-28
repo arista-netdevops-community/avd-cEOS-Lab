@@ -1,0 +1,199 @@
+router_bgp:
+  as: 65001
+  router_id: 192.168.255.1
+  bgp_defaults:
+  - no bgp default ipv4-unicast
+  - distance bgp 20 200 200
+  - maximum-paths 4 ecmp 4
+  bgp_cluster_id: 192.168.255.1
+  peer_groups:
+    EVPN-OVERLAY-PEERS:
+      type: evpn
+      update_source: Loopback0
+      remote_as: 65001
+      bfd: true
+      password: q+VNViP5i4rVjW1cxFv2wA==
+      send_community: all
+      maximum_routes: 0
+      route_reflector_client: true
+  address_family_ipv4:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: false
+  address_family_evpn:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: true
+  neighbors:
+    192.168.255.3:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC1_PE11
+    192.168.255.4:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC1_PE12
+    192.168.255.5:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC1_PE21
+    192.168.255.6:
+      peer_group: EVPN-OVERLAY-PEERS
+      description: DC1_PE22
+static_routes:
+- vrf: MGMT
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 172.100.100.1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+name_server:
+  source:
+    vrf: MGMT
+  nodes:
+  - 1.1.1.1
+  - 8.8.8.8
+ntp_server:
+  local_interface:
+    vrf: MGMT
+    interface: Management0
+  nodes:
+  - time.google.com
+spanning_tree:
+  mode: none
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$7GTxsrRjnwheeKfR$zhJ8qycVjAJz41rf5JRSfWIzp93IL5WL7sMS/Taz1yfShz.MAnoajCf7R2n1/EZW7PN5QA3Huayl0lVQesBYN1
+vrfs:
+  MGMT:
+    ip_routing: false
+management_interfaces:
+  Management0:
+    description: oob_management
+    shutdown: false
+    vrf: MGMT
+    ip_address: 172.100.100.2/24
+    gateway: 172.100.100.1
+    type: oob
+management_api_http:
+  enable_vrfs:
+    MGMT: {}
+  enable_https: true
+loopback_interfaces:
+  Loopback0:
+    description: EVPN_Overlay_Peering
+    shutdown: false
+    ip_address: 192.168.255.1/32
+    isis_enable: EVPN_UNDERLAY
+    isis_passive: true
+ethernet_interfaces:
+  Ethernet1:
+    peer: DC1_PE11
+    peer_interface: Ethernet1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC1_PE11_Ethernet1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 11
+  Ethernet2:
+    peer: DC1_PE12
+    peer_interface: Ethernet1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC1_PE12_Ethernet1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 12
+  Ethernet3:
+    peer: DC1_PE21
+    peer_interface: Ethernet1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC1_PE21_Ethernet1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 13
+  Ethernet4:
+    peer: DC1_PE22
+    peer_interface: Ethernet1
+    peer_type: l3leaf
+    description: P2P_LINK_TO_DC1_PE22_Ethernet1
+    type: switched
+    shutdown: false
+    mode: access
+    vlans: 14
+vlans:
+  11:
+    name: P2P_ISIS_TO_DC1_PE11_VLAN11
+  12:
+    name: P2P_ISIS_TO_DC1_PE12_VLAN12
+  13:
+    name: P2P_ISIS_TO_DC1_PE21_VLAN13
+  14:
+    name: P2P_ISIS_TO_DC1_PE22_VLAN14
+vlan_interfaces:
+  Vlan11:
+    description: P2P_ISIS_TO_DC1_PE11_VLAN11
+    shutdown: false
+    ip_address: 172.31.255.0/31
+    mtu: 9214
+    isis_enable: EVPN_UNDERLAY
+    isis_metric: 50
+    isis_network_point_to_point: true
+  Vlan12:
+    description: P2P_ISIS_TO_DC1_PE12_VLAN12
+    shutdown: false
+    ip_address: 172.31.255.4/31
+    mtu: 9214
+    isis_enable: EVPN_UNDERLAY
+    isis_metric: 50
+    isis_network_point_to_point: true
+  Vlan13:
+    description: P2P_ISIS_TO_DC1_PE21_VLAN13
+    shutdown: false
+    ip_address: 172.31.255.8/31
+    mtu: 9214
+    isis_enable: EVPN_UNDERLAY
+    isis_metric: 50
+    isis_network_point_to_point: true
+  Vlan14:
+    description: P2P_ISIS_TO_DC1_PE22_VLAN14
+    shutdown: false
+    ip_address: 172.31.255.12/31
+    mtu: 9214
+    isis_enable: EVPN_UNDERLAY
+    isis_metric: 50
+    isis_network_point_to_point: true
+router_isis:
+  instance: EVPN_UNDERLAY
+  log_adjacency_changes: true
+  net: 49.0001.0001.0000.0001.00
+  router_id: 192.168.255.1
+  no_passive_interfaces:
+  - Vlan11
+  - Vlan12
+  - Vlan13
+  - Vlan14
+  is_type: level-2
+  address_family:
+  - ipv4 unicast
+  isis_af_defaults:
+  - maximum-paths 2
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+mpls:
+  ip: true
+  ldp:
+    router_id: interface Loopback0
+    shutdown: false
+eos_cli: |
+  router bgp 65001
+    address-family evpn
+      neighbor default encapsulation mpls

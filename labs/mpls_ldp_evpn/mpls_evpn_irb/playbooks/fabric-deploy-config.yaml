@@ -1,0 +1,24 @@
+- name: Cleanup Old Configuration and Device Documentation
+  hosts: DC1_FABRIC
+  tasks:
+    - name: Remove Old Switch Configuration
+      file:
+        path: intended/configs/{{ inventory_hostname }}.cfg
+        state: absent
+    - name: Remove Old Switch Documentation
+      file:
+        path: documentation/devices/{{ inventory_hostname }}.md
+        state: absent
+
+- name: Build cEOS EVPN All-Active Multihoming IRB with MPLS underlay (iBGP Overlay and MPLS and ISIS Underlay)
+  hosts: DC1_FABRIC
+  tasks:
+    - name: generate device intended config and documention
+      tags: [build]
+      import_role:
+        name: arista.avd.eos_cli_config_gen
+    
+    - name: deploy configuration to device
+      tags: [deploy]
+      import_role:
+         name: arista.avd.eos_config_deploy_eapi

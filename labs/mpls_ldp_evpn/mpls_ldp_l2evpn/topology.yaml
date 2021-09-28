@@ -1,0 +1,71 @@
+name: mplsl2evpn
+
+topology:
+  kinds:
+    ceos:
+      startup-config: ../../../ceos_lab_template/ceos.cfg.tpl
+      image: ceosimage:4.26.2F
+    linux:
+      image: alpine-host
+  nodes:
+    p1:
+      kind: ceos
+      mgmt_ipv4: 172.100.100.2
+    p2:
+      kind: ceos
+      mgmt_ipv4: 172.100.100.3
+    pe11:
+      kind: ceos
+      mgmt_ipv4: 172.100.100.4
+    pe12:
+      kind: ceos
+      mgmt_ipv4: 172.100.100.5
+    pe21:
+      kind: ceos
+      mgmt_ipv4: 172.100.100.6
+    pe22:
+      kind: ceos
+      mgmt_ipv4: 172.100.100.7
+    client1:
+      kind: linux
+      mgmt_ipv4: 172.100.100.8
+      env:
+        TMODE: lacp
+    client2:
+      kind: linux
+      mgmt_ipv4: 172.100.100.9
+      env:
+        TMODE: lacp
+    client3:
+      kind: linux
+      mgmt_ipv4: 172.100.100.10
+      env:
+        TMODE: lacp
+    client4:
+      kind: linux
+      mgmt_ipv4: 172.100.100.11
+      env:
+        TMODE: lacp
+  
+  links:
+    - endpoints: ["pe11:eth1", "p1:eth1"]
+    - endpoints: ["pe12:eth1", "p1:eth2"]
+    - endpoints: ["pe21:eth1", "p1:eth3"]
+    - endpoints: ["pe22:eth1", "p1:eth4"]
+    - endpoints: ["pe11:eth2", "p2:eth1"]
+    - endpoints: ["pe12:eth2", "p2:eth2"]
+    - endpoints: ["pe21:eth2", "p2:eth3"]
+    - endpoints: ["pe22:eth2", "p2:eth4"]
+    - endpoints: ["pe11:eth3", "client1:eth1"]
+    - endpoints: ["pe12:eth3", "client1:eth2"]
+    - endpoints: ["pe11:eth4", "client2:eth1"]
+    - endpoints: ["pe12:eth4", "client2:eth2"]
+    - endpoints: ["pe21:eth3", "client3:eth1"]
+    - endpoints: ["pe22:eth3", "client3:eth2"]
+    - endpoints: ["pe21:eth4", "client4:eth1"]
+    - endpoints: ["pe22:eth4", "client4:eth2"]
+
+mgmt:
+  network: mplsl2evpn                
+  ipv4_subnet: 172.100.100.0/24       
+  ipv6_subnet: 2001:172:100:100::/80
