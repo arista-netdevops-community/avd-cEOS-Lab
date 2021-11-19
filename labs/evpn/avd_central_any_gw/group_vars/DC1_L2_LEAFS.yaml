@@ -1,1 +1,4 @@
 type: l3leaf
+custom_structured_configuration_list_merge: append
+custom_structured_configuration_eos_cli: |
+  no ip virtual-router mac-address 00:00:00:00:00:01 

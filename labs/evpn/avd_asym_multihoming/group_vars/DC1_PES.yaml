@@ -10,5 +10,3 @@ custom_structured_configuration_vlan_interfaces:
     shutdown: false
     ip_address_virtual: 10.1.11.1/24
 
-custom_structured_configuration_ip_virtual_router_mac_address: 00:00:00:00:00:01
-

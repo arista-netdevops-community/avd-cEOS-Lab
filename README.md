@@ -24,7 +24,7 @@ This repository contains ansible playbooks which allow the user to quickly:
 1. Deploy cEOS-Lab Leaf Spine topology using [containerlab](https://containerlab.srlinux.dev/).
 2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/latest/index.html)
 
-The same AVD templates can also be used with vEOS-Lab and physical Lab switches with slight changes to management IP and VRF.
+The same AVD templates can also be used with vEOS-Lab and physical Lab switches with slight changes to lab files.
 
 ## Installation
 
@@ -33,12 +33,12 @@ Clone the repository and ensure to have the required libraries and software inst
 ### Requirements
 
 - Python 3.6.8 or above
-- ansible 2.10.0 or above
-- arista.avd ansible collection
-- containerlab
+- ansible-core from 2.11.3 to 2.12.x
+- arista.avd ansible collection (3.0.0 or above)
+- containerlab (0.15 or above)
 - arista.avd requirements
 - docker
-- Arista cEOS-Lab image
+- Arista cEOS-Lab image (4.21.8M or above)
 - Alpine-host image
 
 For arista.avd installation please refer to the [official](https://avd.sh/en/latest/docs/installation/requirements.html) documenation.
@@ -47,7 +47,11 @@ For containerlab installation please refer to the [official](https://containerla
 
 For Python3, docker and ansible installation please refer to the installation guides based on the host OS.
 
-**NOTE** :warning: Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.srlinux.dev/rn/0.15/). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository is containerlab v0.15 (and above) compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
+**NOTE** :warning:
+
+- Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.srlinux.dev/rn/0.15/). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository is containerlab v0.15 (and above) compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
+
+- arista.avd v3.0.0 contains breaking changes to data models [`Release Notes`](https://avd.sh/en/latest/docs/release-notes/3.x.x.html). Latest release of this repository is arista.avd v3.0.0 and above compatible. For older avd compatible syntax download older release. [`Releases`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
 
 ### Installing Arista cEOS-Lab image
 

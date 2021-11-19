@@ -54,12 +54,13 @@ name_server:
   nodes:
   - 1.1.1.1
   - 8.8.8.8
-ntp_server:
+ntp:
   local_interface:
     vrf: MGMT
-    interface: Management0
-  nodes:
-  - time.google.com
+    name: Management0
+  servers:
+    - name: time.google.com
+      preferred: true
 spanning_tree:
   mode: none
 local_users:
