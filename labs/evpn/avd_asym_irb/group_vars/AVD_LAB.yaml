@@ -9,8 +9,11 @@ name_servers:
   - 1.1.1.1
   - 8.8.8.8
 
-ntp_servers:
-  - time.google.com
+ntp:
+  servers:
+  - name: time.google.com
+    preferred: true
+    vrf: MGMT
 
 service_routing_protocols_model: multi-agent
 
