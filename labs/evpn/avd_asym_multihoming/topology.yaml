@@ -4,7 +4,7 @@ topology:
   kinds:
     ceos:
       startup-config: ../../../ceos_lab_template/ceos.cfg.tpl
-      image: ceosimage:4.27.0F
+      image: ceosimage:4.27.3F
     linux:
       image: alpine-host
   nodes:

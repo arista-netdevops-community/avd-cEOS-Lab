@@ -11,14 +11,6 @@ interface Management0
 {{ if .MgmtIPv4Address }}   ip address {{ .MgmtIPv4Address }}/{{ .MgmtIPv4PrefixLength }}{{end}}
 {{ if .MgmtIPv6Address }}   ipv6 address {{ .MgmtIPv6Address }}/{{ .MgmtIPv6PrefixLength }}{{end}}
 !
-management api gnmi
-   transport grpc default
-      vrf MGMT
-!
-management api netconf
-   transport ssh default
-      vrf MGMT
-!
 management api http-commands
    protocol https
    no shutdown
