@@ -5,7 +5,7 @@ underlay_routing_protocol: OSPF
 
 overlay_routing_protocol: IBGP
 
-vxlan_vlan_aware_bundles: true
+evpn_vlan_aware_bundles: true
 
 underlay_ospf_process_id: 100
 underlay_ospf_area: 0.0.0.0

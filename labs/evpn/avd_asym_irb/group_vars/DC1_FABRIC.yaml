@@ -5,7 +5,7 @@ underlay_routing_protocol: EBGP
 
 overlay_routing_protocol: EBGP
 
-vxlan_vlan_aware_bundles: false
+evpn_vlan_aware_bundles: false
 
 # bgp peer groups passwords
 bgp_peer_groups:
@@ -53,7 +53,6 @@ l3leaf:
     vtep_loopback_ipv4_pool: 192.168.254.0/24
     mlag_peer_ipv4_pool: 10.255.252.0/24
     mlag_peer_l3_ipv4_pool: 10.255.251.0/24
-    virtual_router_mac_address: 00:00:00:00:00:01
     bgp_defaults:
       #- update wait-install
       - no bgp default ipv4-unicast

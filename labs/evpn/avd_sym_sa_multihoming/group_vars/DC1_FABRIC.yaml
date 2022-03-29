@@ -1,0 +1,188 @@
+---
+fabric_name: DC1_FABRIC
+
+underlay_routing_protocol: EBGP
+
+overlay_routing_protocol: EBGP
+
+evpn_vlan_aware_bundles: false
+
+# bgp peer groups passwords
+bgp_peer_groups:
+  IPv4_UNDERLAY_PEERS:
+    password: "AQQvKeimxJu+uGQ/yYvv9w=="
+  EVPN_OVERLAY_PEERS:
+      password: "q+VNViP5i4rVjW1cxFv2wA=="
+
+spine:
+  defaults:
+    platform: cEOS-LAB
+    bgp_as: 65001
+    loopback_ipv4_pool: 192.168.255.0/24
+    bgp_defaults:
+      #- update wait-for-convergence
+      #- update wait-install
+      - no bgp default ipv4-unicast
+      - distance bgp 20 200 200
+      #- graceful-restart restart-time 300
+      #- graceful-restart
+  leaf_as_range: 65101-65132
+  nodes:
+    DC1_SPINE1:
+      id: 1
+      mgmt_ip: 172.100.100.2/24
+    DC1_SPINE2:
+      id: 2
+      mgmt_ip: 172.100.100.3/24
+
+l3leaf:
+  defaults:
+    platform: cEOS-LAB
+    uplink_switches: [DC1_SPINE1, DC1_SPINE2]
+    uplink_interfaces: [Ethernet1, Ethernet2]
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    virtual_router_mac_address: 00:00:00:00:00:01
+    loopback_ipv4_pool: 192.168.255.0/24
+    loopback_ipv4_offset: 2
+    vtep_loopback_ipv4_pool: 192.168.254.0/24
+    uplink_ipv4_pool: 172.31.255.0/24
+    bgp_defaults:
+      #- update wait-install
+      - no bgp default ipv4-unicast
+      - distance bgp 20 200 200
+      #- graceful-restart restart-time 300
+      #- graceful-restart
+  node_groups:
+    POD_1:
+      mlag: false
+      filter:
+        tenants: [ Tenant_A ]
+        tags: [ opzone_pod1 ]
+      nodes:
+        DC1_PE11:
+          id: 1
+          bgp_as: 65101
+          mgmt_ip: 172.100.100.4/24
+          uplink_switch_interfaces: [Ethernet1, Ethernet1]
+          structured_config:
+            port_channel_interfaces:
+              Port-Channel3:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 200
+              Port-Channel4:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 200
+          raw_eos_cli: |
+            !
+            router bgp 65101
+            !
+            vlan 110
+              designated-forwarder election preference rule high
+            !
+            vlan 111
+              designated-forwarder election preference rule low
+            !
+        DC1_PE12:
+          id: 2
+          bgp_as: 65102
+          mgmt_ip: 172.100.100.5/24
+          uplink_switch_interfaces: [Ethernet2, Ethernet2]
+          structured_config:
+            port_channel_interfaces:
+              Port-Channel3:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 100
+              Port-Channel4:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 100
+          raw_eos_cli: |
+            !
+            router bgp 65102
+            !
+            vlan 110
+              designated-forwarder election preference rule high
+            !
+            vlan 111
+              designated-forwarder election preference rule low
+            !
+
+    POD_2:
+      mlag: false
+      filter:
+        tenants: [ Tenant_A ]
+        tags: [ opzone_pod2 ]
+      nodes:
+        DC1_PE21:
+          id: 3
+          bgp_as: 65103
+          mgmt_ip: 172.100.100.6/24
+          uplink_switch_interfaces: [Ethernet3, Ethernet3]
+          structured_config:
+            port_channel_interfaces:
+              Port-Channel3:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 200
+              Port-Channel4:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 200
+          raw_eos_cli: |
+            !
+            router bgp 65103
+            !
+            vlan 112
+              designated-forwarder election preference rule high
+            !
+            vlan 113
+              designated-forwarder election preference rule low
+            !
+        DC1_PE22:
+          id: 4
+          bgp_as: 65104
+          mgmt_ip: 172.100.100.7/24
+          uplink_switch_interfaces: [Ethernet4, Ethernet4]
+          structured_config:
+            port_channel_interfaces:
+              Port-Channel3:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 100
+              Port-Channel4:
+                evpn_ethernet_segment:
+                  redundancy: single-active
+                  designated_forwarder_election:
+                    algorithm: preference
+                    preference_value: 100
+          raw_eos_cli: |
+            !
+            router bgp 65104
+            !
+            vlan 112
+              designated-forwarder election preference rule high
+            !
+            vlan 113
+              designated-forwarder election preference rule low
+            !
+
+# Enable Route Target Membership Constraint Address Family on EVPN overlay BGP peerings
+evpn_overlay_bgp_rtc: true

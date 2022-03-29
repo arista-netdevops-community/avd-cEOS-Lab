@@ -21,8 +21,8 @@
 
 This repository contains ansible playbooks which allow the user to quickly:
 
-1. Deploy cEOS-Lab Leaf Spine topology using [containerlab](https://containerlab.srlinux.dev/).
-2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/latest/index.html)
+1. Deploy cEOS-Lab Leaf Spine topology using [containerlab](https://containerlab.dev/).
+2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/latest/)
 
 The same AVD templates can also be used with vEOS-Lab and physical Lab switches with slight changes to lab files.
 
@@ -39,17 +39,17 @@ Clone the repository and ensure to have the required libraries and software inst
 - arista.avd requirements
 - docker
 - Arista cEOS-Lab image (4.21.8M or above)
-- Alpine-host image
+- Alpine-host image (optional)
 
 For arista.avd installation please refer to the [official](https://avd.sh/en/latest/docs/installation/requirements.html) documenation.
 
-For containerlab installation please refer to the [official](https://containerlab.srlinux.dev/install/) documentation.
+For containerlab installation please refer to the [official](https://containerlab.dev/install/) documentation.
 
 For Python3, docker and ansible installation please refer to the installation guides based on the host OS.
 
 **NOTE** :warning:
 
-- Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.srlinux.dev/rn/0.15/). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository is containerlab v0.15 (and above) compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
+- Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.dev/rn/0.15/). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository is containerlab v0.15 (and above) compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
 
 - arista.avd v3.0.0 contains breaking changes to data models [`Release Notes`](https://avd.sh/en/latest/docs/release-notes/3.x.x.html). Latest release of this repository is arista.avd v3.0.0 and above compatible. For older avd compatible syntax download older release. [`Releases`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
 
@@ -99,13 +99,13 @@ REPOSITORY            TAG                 IMAGE ID            CREATED           
 alpine-host           latest              eab21450c58c        30 hours ago        68.7MB
 ```
 
-Alternatively you can use cEOS container as a host, or any other linux based container for host simulation.
+Alternatively you can use cEOS-Lab container or any other linux based container for host simulation. Lab `topology.yaml` by default uses alpine-host image for client containers.
 
 ### cEOS containerlab template
 
 **NOTE** :warning: This is no longer required starting containerlab v0.15. The v2.0.0 and above releases of this repository includes this template in the `topology.yaml` itself.
 
-Replace the containerlab cEOS default template with the `ceos.cfg.tpl` file from this repository.
+For containerlab version less than v0.15, replace the containerlab cEOS default template with the `ceos.cfg.tpl` file from this repository. If the default template is not replaced with the one from this repository, then for the intial AVD config replace you will observe a timeout error.
 
 ```shell
 ceos_lab_template
@@ -120,8 +120,6 @@ This is to ensure the containers by default come up with:
 2. MGMT vrf for management connectivity
 3. eAPI enabled
 
-**NOTE** For containerlab version less than v0.15, If the default template is not replaced with the one from this repository, then for the intial AVD config replace you will observe a timeout error.
-
 ## AWS AMI
 
 Following AWS AMI with all requirements installed. Built by Michael Pergament.
@@ -135,37 +133,19 @@ Following AWS AMI with all requirements installed. Built by Michael Pergament.
 
 Currently following labs are available
 
-1. EVPN Symmetric IRB (eBGP Overlay and eBGP Underlay) (2 Spine + 2 MLAG Leaf Pair + 2 L2 leaf + 4 Clients) [`labs/evpn/avd_sym_irb/`]
-
-<img src="images/avdirb.png" height="250">
-
-2. EVPN Symmetric IRB (iBGP Overlay and OSFP Underlay) (2 Spine + 2 MLAG Leaf Pair + 4 Clients) [`labs/evpn/avd_sym_irb_ibgp`]
-
-<img src="images/avdirb-ibgp-ospf.png" height="250">
-
-3. EVPN Asymmetric IRB ( eBGP Overlay and eBGP Underlay ) (2 Spine + 2 MLAG Leaf Pair + 4 Clients) [`labs/evpn/avd_asym_irb`]
-
-<img src="images/avdasymirb.png" height="250">
-
-4. EVPN Centralized Anycast Gateway ( eBGP Overlay and eBGP Underlay ) ( 2 spine + 1 MLAG Compute leaf pair + 1 MLAG Service Leaf pair + 4 Clients ) [`labs/evpn/avd_central_any_gw`]
-
-<img src="images/avdcentralgw.png" height="250">
-
-5. EVPN VXLAN All-active Multi-homing IRB ( eBGP Overlay and eBGP Underlay ) (2 Spines + 4 PEs + 4 Clients)[`/labs/evpn/avd_asym_multihoming`]
-
-<img src="images/aa_asym_mh.png" height="250">
-
-6. EVPN MPLS LDP All-Active Multihoming (L2EVPN) (iBGP Overlay and MPLS Underlay) (2 Ps + 4 PEs + 4 Clients)[`labs/mpls_ldp_evpn/mpls_ldp_l2evpn`]
-
-   EVPN All-Active Multihoming IRB with MPLS Underlay (iBGP Overlay and MPLS Underlay) (2 Ps + 4 PEs + 4 Clients)[`labs/mpls_ldp_evpn/mpls_evpn_irb`]
-   
-   `* using eos_cli_config_gen`
-
-<img src="images/mpls.png" height="250">
+| Lab | Topology |
+| --- | -------- |
+| EVPN Symmetric IRB </br>(eBGP Overlay and eBGP Underlay) </br>(2 Spine + 2 MLAG Leaf Pair + 2 L2 leaf + 4 Clients) </br>[`labs/evpn/avd_sym_irb/`] | <img src="images/avdirb_v2.png" height="300"> |
+| EVPN Symmetric IRB </br>(iBGP Overlay and OSFP Underlay) </br>(2 Spine + 2 MLAG Leaf Pair + 4 Clients) </br>[`labs/evpn/avd_sym_irb_ibgp`] | <img src="images/avdirb-ibgp-ospf_v2.png" height="300"> |
+| EVPN Asymmetric IRB </br>( eBGP Overlay and eBGP Underlay ) </br>(2 Spine + 2 MLAG Leaf Pair + 4 Clients) </br>[`labs/evpn/avd_asym_irb`] | <img src="images/avdasymirb_v2.png" height="300"> |
+| EVPN Centralized Anycast Gateway </br>( eBGP Overlay and eBGP Underlay ) </br>( 2 spine + 1 MLAG Compute leaf pair + 1 MLAG Service Leaf pair + 4 Clients ) </br>[`labs/evpn/avd_central_any_gw`] | <img src="images/avdcentralgw_v2.png" height="300"> |
+| EVPN VXLAN All-active Multi-homing IRB </br>( eBGP Overlay and eBGP Underlay ) </br>(2 Spines + 4 PEs + 4 Clients) </br>[`/labs/evpn/avd_asym_multihoming`] | <img src="images/aa_asym_mh_v2.png" height="300"> |
+| EVPN Single-Active Multihoming Symmetric IRB </br>(eBGP Overlay and eBGP Underlay) </br>(2 Spines + 4 PEs + 4 Clients) </br>[`/labs/evpn/avd_sym_sa_multihoming`] | <img src="images/sa_sym_mh_v2.png" height="300"> |
+| EVPN MPLS LDP All-Active Multihoming (L2EVPN) </br>(iBGP Overlay and MPLS Underlay) </br>(2 Ps + 4 PEs + 4 Clients) </br>[`labs/mpls_ldp_evpn/mpls_ldp_l2evpn`] </br></br> EVPN All-Active Multihoming IRB with MPLS Underlay </br>(iBGP Overlay and MPLS Underlay) </br>(2 Ps + 4 PEs + 4 Clients)</br>[`labs/mpls_ldp_evpn/mpls_evpn_irb`] </br></br>`using eos_cli_config_gen` | <img src="images/mpls_v2.png" height="300"> |
 
 ## Demo
 
-This Demo will deploy Lab (1) using containerlab and configure the Fabric using AVD.
+This Demo will deploy `avd_sym_irb` lab using containerlab and configure the Fabric using AVD.
 
 ***NOTE*** The cEOS container IP's are hardcoded in the 172.100.100.0/24 subnet. If you are seeing clashes with existing docker container network, then change the management IPs in the following files:
 
@@ -336,9 +316,9 @@ Example:
         TACTIVE: eth1
 ```
 
-`active-backup` mode is added for upcoming `EVPN Single-Active Multihoming` lab. 
+`active-backup` mode is added for `EVPN Single-Active Multihoming Symmetric IRB` lab.
 
-`TACTIVE` sets the active interface and the other interface (ex. `eth2`) will be automatically set to backup.
+`TACTIVE` sets the active interface (ex. `eth1`) and the other interface (ex. `eth2`) will be automatically set to backup.
 
 #### L3 configuration
 

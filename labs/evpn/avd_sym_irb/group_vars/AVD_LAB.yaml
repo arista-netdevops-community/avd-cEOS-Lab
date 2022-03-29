@@ -14,6 +14,7 @@ ntp:
   - name: time.google.com
     preferred: true
     vrf: MGMT
+    iburst: true
 
 service_routing_protocols_model: multi-agent
 
@@ -23,12 +24,14 @@ ip_routing: true
 
 # hardcoding management0 for cEOS lab compatibility (default: Management1)
 mgmt_interface: Management0
+mgmt_gateway: 172.100.100.1
 
-management_api_http:
+# Management eAPI | Required for this Lab
+management_eapi:
   enable_https: true
 
-management_api_gnmi:
-  enable_vrfs:
-    MGMT:
-
-mgmt_gateway: 172.100.100.1
+# Management GNMI | Optional
+#management_api_gnmi:
+#  enable_vrfs:
+#    MGMT:
+#  octa: true

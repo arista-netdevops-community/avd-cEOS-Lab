@@ -7,7 +7,7 @@ overlay_routing_protocol: EBGP
 
 vtep_vvtep_ip: 192.168.254.254/32
 
-vxlan_vlan_aware_bundles: false
+evpn_vlan_aware_bundles: false
 
 # bgp peer groups passwords
 bgp_peer_groups:
@@ -54,7 +54,7 @@ l3leaf:
     uplink_ipv4_pool: 172.31.255.0/24
     mlag_peer_ipv4_pool: 10.255.252.0/24
     mlag_peer_l3_ipv4_pool: 10.255.251.0/24
-    virtual_router_mac_address: 00:00:00:00:00:01
+    mlag_interfaces: [Ethernet3, Ethernet4]
     bgp_defaults:
       #- update wait-install
       - no bgp default ipv4-unicast
@@ -64,7 +64,6 @@ l3leaf:
   node_groups:
     DC1_LEAF1:
       bgp_as: 65101
-      mlag_interfaces: [Ethernet3, Ethernet4]
       nodes:
         DC1_LEAF1A:
           id: 1
@@ -83,8 +82,8 @@ l3leaf:
           uplink_switch_interfaces: [Ethernet3, Ethernet3]
     DC1_SVC1:
       bgp_as: 65103
-      mlag_interfaces: [Ethernet3, Ethernet4]
       evpn_services_l2_only: false
+      virtual_router_mac_address: 00:00:00:00:00:01
       nodes:
         DC1_SVC1A:
           id: 4
