@@ -18,7 +18,8 @@ ntp:
 
 service_routing_protocols_model: multi-agent
 
-spanning_tree_mode: mstp
+spanning_tree:
+  mode: mstp
 
 ip_routing: true
 
@@ -27,11 +28,28 @@ mgmt_interface: Management0
 mgmt_gateway: 172.100.100.1
 
 # Management eAPI | Required for this Lab
-management_eapi:
-  enable_https: true
+custom_structured_configuration_management_api_http:
+  https_ssl_profile: eAPI
+
+# Management security required for SSL profile with strong ciphers
+#custom_structured_configuration_management_security:
+#  ssl_profiles:
+#    - name: eAPI
+#      certificate:
+#        file: eAPI.crt
+#        key: eAPI.key
+#      cipher_list: HIGH,!eNULL,!aNULL,!MD5,!ADH,!ANULL
+
+# cipher_list will be added in AVD rel 3.8.x till then using raw_eos_cli
+eos_cli: |
+  management security
+     ssl profile eAPI
+        cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+        certificate eAPI.crt key eAPI.key
 
 # Management GNMI | Optional
 #management_api_gnmi:
 #  enable_vrfs:
 #    MGMT:
 #  octa: true
+#  provider: eos-native
