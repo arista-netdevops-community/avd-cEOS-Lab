@@ -88,6 +88,11 @@ l3leaf:
             vlan 111
               designated-forwarder election preference rule low
             !
+            management security
+               ssl profile eAPI
+                  cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+                  certificate eAPI.crt key eAPI.key
+            !
         DC1_PE12:
           id: 2
           bgp_as: 65102
@@ -116,6 +121,11 @@ l3leaf:
             !
             vlan 111
               designated-forwarder election preference rule low
+            !
+            management security
+               ssl profile eAPI
+                  cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+                  certificate eAPI.crt key eAPI.key
             !
 
     POD_2:
@@ -153,6 +163,11 @@ l3leaf:
             vlan 113
               designated-forwarder election preference rule low
             !
+            management security
+               ssl profile eAPI
+                  cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+                  certificate eAPI.crt key eAPI.key
+            !
         DC1_PE22:
           id: 4
           bgp_as: 65104
@@ -181,6 +196,11 @@ l3leaf:
             !
             vlan 113
               designated-forwarder election preference rule low
+            !
+            management security
+               ssl profile eAPI
+                  cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+                  certificate eAPI.crt key eAPI.key
             !
 
 # Enable Route Target Membership Constraint Address Family on EVPN overlay BGP peerings

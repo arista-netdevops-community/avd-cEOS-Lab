@@ -40,13 +40,6 @@ custom_structured_configuration_management_api_http:
 #        key: eAPI.key
 #      cipher_list: HIGH,!eNULL,!aNULL,!MD5,!ADH,!ANULL
 
-# cipher_list will be added in AVD rel 3.8.x till then using raw_eos_cli
-eos_cli: |
-  management security
-     ssl profile eAPI
-        cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
-        certificate eAPI.crt key eAPI.key
-
 # Management GNMI | Optional
 #management_api_gnmi:
 #  enable_vrfs:
