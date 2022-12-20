@@ -3,26 +3,31 @@
 ![lab-version](https://img.shields.io/github/v/release/arista-netdevops-community/avd-cEOS-Lab?color=brightgreen&logo=appveyor&style=for-the-badge)
 ![cEOS-AVD](https://img.shields.io/badge/AVD-cEOS-brightgreen?logo=appveyor&style=for-the-badge)
 
-- [Overview](#overview)
-- [Installation](#installation)
+- [Arista Validated design with cEOS-lab](#arista-validated-design-with-ceos-lab)
+  - [Overview](#overview)
+  - [Installation](#installation)
     - [Requirements](#requirements)
+      - [AVD](#avd)
+      - [cEOS-Lab Deployment](#ceos-lab-deployment)
     - [Installing Arista cEOS-Lab image](#installing-arista-ceos-lab-image)
     - [Installing the alpine-host image](#installing-the-alpine-host-image)
     - [cEOS containerlab template](#ceos-containerlab-template)
-    - [AWS AMI](#aws-ami)
-- [Labs](#labs)
-- [Demo](#demo)
-- [Improvements](#improvements)
-  - [Alpine-host configuration](#alpine-host-configuration)
-    - [Bonding Configuration](#bonding-configuration)
-    - [L3 configuration](#l3-configuration)
+  - [AWS AMI](#aws-ami)
+  - [Labs](#labs)
+  - [Demo](#demo)
+    - [Using Makefile](#using-makefile)
+  - [Improvements](#improvements)
+    - [Alpine-host configuration](#alpine-host-configuration)
+      - [Bonding Configuration](#bonding-configuration)
+      - [Host L3 configuration](#host-l3-configuration)
+  - [Upcoming](#upcoming)
 
 ## Overview
 
 This repository contains ansible playbooks which allow the user to quickly:
 
 1. Deploy cEOS-Lab Leaf Spine topology using [containerlab](https://containerlab.dev/).
-2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/latest/)
+2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/stable/)
 
 The same AVD templates can also be used with vEOS-Lab and physical Lab switches with slight changes to lab files.
 
@@ -32,16 +37,21 @@ Clone the repository and ensure to have the required libraries and software inst
 
 ### Requirements
 
-- Python 3.6.8 or above
-- ansible-core from 2.11.3 to 2.12.x
+#### AVD
+
+- Python 3.8 or above
+- `ansible-core` from 2.11.3 to 2.12.x
 - arista.avd ansible collection (3.0.0 or above)
 - containerlab (0.15 or above)
 - arista.avd requirements
+
+#### cEOS-Lab Deployment
+
 - docker
 - Arista cEOS-Lab image (4.21.8M or above)
 - Alpine-host image (optional)
 
-For arista.avd installation please refer to the [official](https://avd.sh/en/latest/docs/installation/requirements.html) documenation.
+For arista.avd installation please refer to the [official](https://avd.sh/en/stable/docs/installation/requirements.html) documenation.
 
 For containerlab installation please refer to the [official](https://containerlab.dev/install/) documentation.
 
@@ -52,6 +62,8 @@ For Python3, docker and ansible installation please refer to the installation gu
 - Containerlab topology definitions have changed starting v0.15 - [`Release Notes`](https://containerlab.dev/rn/0.15/). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository is containerlab v0.15 (and above) compatible. For older containerlab compatible syntax download [`v1.1.2`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
 
 - arista.avd v3.0.0 contains breaking changes to data models [`Release Notes`](https://avd.sh/en/latest/docs/release-notes/3.x.x.html). Latest release of this repository is arista.avd v3.0.0 and above compatible. For older avd compatible syntax download older release. [`Releases`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases)
+
+- Starting Python 3.10 the default SSL/TLS ciphers have been [updated](https://bugs.python.org/issue43998). Latest [`release`](https://github.com/arista-netdevops-community/avd-cEOS-Lab/releases) of this repository updates the cipher suite on EOS via a security profile applied to eAPI to be compatible with Python 3.10.
 
 ### Installing Arista cEOS-Lab image
 
@@ -103,9 +115,9 @@ Alternatively you can use cEOS-Lab container or any other linux based container 
 
 ### cEOS containerlab template
 
-**NOTE** :warning: This is no longer required starting containerlab v0.15. The v2.0.0 and above releases of this repository includes this template in the `topology.yaml` itself.
+**NOTE** :warning: <ins> This is no longer required starting containerlab v0.15.</ins> The v2.0.0 and above releases of this repository includes this template in the `topology.yaml` itself.
 
-For containerlab version less than v0.15, replace the containerlab cEOS default template with the `ceos.cfg.tpl` file from this repository. If the default template is not replaced with the one from this repository, then for the intial AVD config replace you will observe a timeout error.
+<ins>For containerlab version less than v0.15</ins>, replace the containerlab cEOS default template with the `ceos.cfg.tpl` file from this repository. If the default template is not replaced with the one from this repository, then for the intial AVD config replace you will observe a timeout error.
 
 ```shell
 ceos_lab_template
@@ -157,18 +169,19 @@ This Demo will deploy `avd_sym_irb` lab using containerlab and configure the Fab
 labs/evpn/avd_sym_irb
 ├── ansible.cfg
 ├── group_vars
-│   ├── AVD_LAB.yaml
-│   ├── DC1_FABRIC.yaml
-│   ├── DC1_L2_LEAFS.yaml
-│   ├── DC1_L3_LEAFS.yaml
-│   ├── DC1_SERVERS.yaml
-│   ├── DC1_SPINES.yaml
-│   └── DC1_TENANTS_NETWORKS.yaml
+│   ├── AVD_LAB.yaml
+│   ├── DC1_FABRIC.yaml
+│   ├── DC1_L2_LEAFS.yaml
+│   ├── DC1_L3_LEAFS.yaml
+│   ├── DC1_SERVERS.yaml
+│   ├── DC1_SPINES.yaml
+│   └── DC1_TENANTS_NETWORKS.yaml
 ├── host_l3_config
-│   └── l3_build.sh
+│   └── l3_build.sh
 ├── inventory.yaml
+├── Makefile
 ├── playbooks
-│   └── fabric-deploy-config.yaml
+│   └── fabric-deploy-config.yaml
 └── topology.yaml
 ```
 
@@ -278,6 +291,19 @@ Vxlan1 is up, line protocol is up (connected)
   MLAG Shared Router MAC is 021c.7313.b344
 ```
 
+### Using Makefile
+
+Each lab contains a `Makefile`, which simplifies the lab deployment steps using `make` command.
+
+To see available options
+
+```shell
+$ make help
+deploy                         Complete AVD & cEOS-Lab Deployment
+destroy                        Delete cEOS-Lab Deployment and AVD generated config and documentation
+help                           Display help message
+```
+
 ## Improvements
 
 ### Alpine-host configuration
@@ -320,9 +346,9 @@ Example:
 
 `TACTIVE` sets the active interface (ex. `eth1`) and the other interface (ex. `eth2`) will be automatically set to backup.
 
-#### L3 configuration
+#### Host L3 configuration
 
-Currently L3 configuration can be done either:
+Currently end host L3 configuration can be done either:
 
 - Using the `labs/evpn/avd_<lab>/host_l3_config/l3_build.sh`. The shell script contains the command to configure the VLAN, IP address, Gateway route on the alpine hosts.
   - If VLAN/SVIs (on the switch) are different from default templates please edit the `l3_build.sh` accordingly.
@@ -365,3 +391,7 @@ round-trip min/avg/max = 5.946/13.238/20.531 ms
 / $ arp -a
 ? (10.1.10.1) at 00:00:00:00:00:01 [ether]  on team0.110
 ```
+
+## Upcoming
+
+CVX VxLAN Lab
