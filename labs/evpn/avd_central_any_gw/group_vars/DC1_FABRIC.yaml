@@ -30,7 +30,6 @@ spine:
       - distance bgp 20 200 200
       #- graceful-restart restart-time 300
       #- graceful-restart
-  leaf_as_range: 65101-65132
   nodes:
     DC1_SPINE1:
       id: 1
