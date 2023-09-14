@@ -1,8 +1,2 @@
 type: spine
-custom_structured_configuration_eos_cli: |-
-  !
-  management security
-     ssl profile eAPI
-        cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
-        certificate eAPI.crt key eAPI.key
-  !
+
