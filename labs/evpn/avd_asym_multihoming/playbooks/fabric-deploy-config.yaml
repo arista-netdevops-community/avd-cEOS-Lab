@@ -1,4 +1,4 @@
-- name: Build cEOS EVPN Asymmetric IRB Fabric (eBGP Overlay and eBGP Underlay)
+- name: Build cEOS EVPN VXLAN All-active Multi-homing IRB Fabric (eBGP Overlay and eBGP Underlay)
   hosts: DC1_FABRIC
   tasks:
     - name: Generate EOS configuration Snapshots
