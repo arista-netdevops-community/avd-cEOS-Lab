@@ -4,7 +4,7 @@ topology:
   kinds:
     ceos:
       startup-config: ../../../ceos_lab_template/ceos.cfg.tpl
-      image: ceosimage:4.29.0.2F
+      image: ceosimage:4.30.1F
       exec:
         - sleep 10
         - FastCli -p 15 -c 'security pki key generate rsa 4096 eAPI.key'
@@ -14,43 +14,43 @@ topology:
   nodes:
     spine1:
       kind: ceos
-      mgmt_ipv4: 172.100.100.2
+      mgmt-ipv4: 172.100.100.2
     spine2:
       kind: ceos
-      mgmt_ipv4: 172.100.100.3
+      mgmt-ipv4: 172.100.100.3
     leaf1a:
       kind: ceos
-      mgmt_ipv4: 172.100.100.4
+      mgmt-ipv4: 172.100.100.4
     leaf1b:
       kind: ceos
-      mgmt_ipv4: 172.100.100.5
+      mgmt-ipv4: 172.100.100.5
     leaf2a:
       kind: ceos
-      mgmt_ipv4: 172.100.100.6
+      mgmt-ipv4: 172.100.100.6
     leaf3a:
       kind: ceos
-      mgmt_ipv4: 172.100.100.7
+      mgmt-ipv4: 172.100.100.7
     leaf3b:
       kind: ceos
-      mgmt_ipv4: 172.100.100.8
+      mgmt-ipv4: 172.100.100.8
     client1:
       kind: linux
-      mgmt_ipv4: 172.100.100.9
+      mgmt-ipv4: 172.100.100.9
       env:
         TMODE: lacp
     client2:
       kind: linux
-      mgmt_ipv4: 172.100.100.10
+      mgmt-ipv4: 172.100.100.10
       env:
         TMODE: lacp
     client3:
       kind: linux
-      mgmt_ipv4: 172.100.100.11
+      mgmt-ipv4: 172.100.100.11
       env:
         TMODE: lacp
     client4:
       kind: linux
-      mgmt_ipv4: 172.100.100.12
+      mgmt-ipv4: 172.100.100.12
       env:
         TMODE: lacp
   
@@ -80,5 +80,5 @@ topology:
 
 mgmt:
   network: ceos_clab                
-  ipv4_subnet: 172.100.100.0/24       
-  ipv6_subnet: 2001:172:100:100::/80
+  ipv4-subnet: 172.100.100.0/24       
+  ipv6-subnet: 2001:172:100:100::/80
