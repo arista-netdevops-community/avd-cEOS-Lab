@@ -1,0 +1,78 @@
+---
+port_profiles:
+  - profile: Tenant_A_pod1_clientA
+    mode: trunk
+    vlans: '110'
+  - profile: Tenant_A_pod1_clientB
+    mode: trunk
+    vlans: '111'
+
+servers:
+  - name: server01
+    rack: rack01
+    adapters:
+      - endpoint_ports:
+          - Eth1
+          - Eth2
+        switch_ports:
+          - Ethernet5
+          - Ethernet5
+        switches:
+          - DC1_LEAF1A
+          - DC1_LEAF1B
+        profile: Tenant_A_pod1_clientA
+        spanning_tree_portfast: edge
+        port_channel:
+          description: PortChannel5
+          mode: active
+  - name: server02
+    rack: rack01
+    adapters:
+      - endpoint_ports:
+          - Eth1
+          - Eth2
+        switch_ports:
+          - Ethernet6
+          - Ethernet6
+        switches:
+          - DC1_LEAF1A
+          - DC1_LEAF1B
+        profile: Tenant_A_pod1_clientB
+        spanning_tree_portfast: edge
+        port_channel:
+          description: PortChannel6
+          mode: active
+  - name: server03
+    rack: rack02
+    adapters:
+      - endpoint_ports:
+          - Eth1
+          - Eth2
+        switch_ports:
+          - Ethernet5
+          - Ethernet5
+        switches:
+          - DC1_LEAF2A
+          - DC1_LEAF2B
+        profile: Tenant_A_pod1_clientA
+        spanning_tree_portfast: edge
+        port_channel:
+          description: PortChannel5
+          mode: active
+  - name: server04
+    rack: rack02
+    adapters:
+      - endpoint_ports:
+          - Eth1
+          - Eth2
+        switch_ports:
+          - Ethernet6
+          - Ethernet6
+        switches:
+          - DC1_LEAF2A
+          - DC1_LEAF2B
+        profile: Tenant_A_pod1_clientB
+        spanning_tree_portfast: edge
+        port_channel:
+          description: PortChannel6
+          mode: active
