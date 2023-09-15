@@ -13,6 +13,11 @@
 - name: Build cEOS L2EVPN MPLS LDP All-Active Multihoming Fabric (iBGP Overlay and ISIS Underlay)
   hosts: DC1_FABRIC
   tasks:
+    - name: Generate EOS configuration Snapshots
+      tags: [snapshot]
+      import_role:
+        name: arista.avd.eos_snapshot
+    
     - name: generate device intended config and documention
       tags: [build]
       import_role:
@@ -22,3 +27,8 @@
       tags: [deploy]
       import_role:
          name: arista.avd.eos_config_deploy_eapi
+    
+    - name: Validate states on EOS devices
+      tags: [verify, never]
+      import_role:
+        name: arista.avd.eos_validate_state
