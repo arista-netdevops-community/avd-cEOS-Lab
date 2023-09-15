@@ -179,11 +179,6 @@ router_isis:
   log_adjacency_changes: true
   net: 49.0001.0001.0000.0002.00
   router_id: 192.168.255.2
-  no_passive_interfaces:
-  - Vlan21
-  - Vlan22
-  - Vlan23
-  - Vlan24
   is_type: level-2
   address_family:
   - ipv4 unicast
@@ -199,10 +194,10 @@ mpls:
   ldp:
     router_id: interface Loopback0
     shutdown: false
-eos_cli: |
-  !
-  management security
-     ssl profile eAPI
-        cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
-        certificate eAPI.crt key eAPI.key
-  !
+management_security:
+  ssl_profiles:
+    - name: eAPI
+      certificate:
+        file: eAPI.crt
+        key: eAPI.key
+      cipher_list: 'HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL'
