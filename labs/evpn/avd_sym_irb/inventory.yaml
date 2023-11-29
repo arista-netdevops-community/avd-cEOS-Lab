@@ -43,12 +43,12 @@ all:
             ansible_network_os: eos
             ansible_httpapi_port: 443
             ansible_python_interpreter: $(which python3)
-        DC1_TENANTS_NETWORKS:
+        DC1_NETWORK_SERVICES:
           children:
             DC1_L3_LEAFS:
             DC1_L2_LEAFS:
 
-        DC1_SERVERS:
+        DC1_CONNECTED_ENDPOINTS:
           children:
             DC1_L3_LEAFS:
             DC1_L2_LEAFS:

@@ -1,9 +1,9 @@
 ---
 fabric_name: DC1_FABRIC
 
-underlay_routing_protocol: EBGP
+underlay_routing_protocol: ebgp
 
-overlay_routing_protocol: EBGP
+overlay_routing_protocol: ebgp
 
 vtep_vvtep_ip: 192.168.254.254/32
 
@@ -11,39 +11,45 @@ evpn_vlan_aware_bundles: false
 
 # bgp peer groups passwords
 bgp_peer_groups:
-  IPv4_UNDERLAY_PEERS:
+  ipv4_underlay_peers:
     password: "AQQvKeimxJu+uGQ/yYvv9w=="
-  EVPN_OVERLAY_PEERS:
+  evpn_overlay_peers:
       password: "q+VNViP5i4rVjW1cxFv2wA=="
-  MLAG_IPv4_UNDERLAY_PEER:
+  mlag_ipv4_underlay_peer:
       password: "vnEaG8gMeQf3d3cN6PktXQ=="
+
+# BGP defaults
+bgp_default_ipv4_unicast: false
+bgp_update_wait_install: false
+bgp_update_wait_for_convergence: false
+bgp_distance:
+  external_routes: 20
+  internal_routes: 200
+  local_routes: 200
 
 spine:
   defaults:
     platform: cEOS-LAB
-    bgp_as: 65001
+    bgp_as: '65001'
     loopback_ipv4_pool: 192.168.255.0/24
-    bgp_defaults:
-      #- update wait-for-convergence
-      #- update wait-install
-      - no bgp default ipv4-unicast
-      - distance bgp 20 200 200
-      #- graceful-restart restart-time 300
-      #- graceful-restart
   nodes:
-    DC1_SPINE1:
+    - name: DC1_SPINE1
       id: 1
       mgmt_ip: 172.100.100.2/24
-    DC1_SPINE2:
+    - name: DC1_SPINE2
       id: 2
       mgmt_ip: 172.100.100.3/24
 
 l3leaf:
   defaults:
     platform: cEOS-LAB
-    bgp_as: 65100
-    uplink_switches: [DC1_SPINE1, DC1_SPINE2]
-    uplink_interfaces: [Ethernet1, Ethernet2]
+    bgp_as: '65100'
+    uplink_switches:
+      - DC1_SPINE1
+      - DC1_SPINE2
+    uplink_interfaces:
+      - Ethernet1
+      - Ethernet2
     spanning_tree_mode: mstp
     spanning_tree_priority: 4096
     evpn_services_l2_only: true
@@ -53,42 +59,48 @@ l3leaf:
     uplink_ipv4_pool: 172.31.255.0/24
     mlag_peer_ipv4_pool: 10.255.252.0/24
     mlag_peer_l3_ipv4_pool: 10.255.251.0/24
-    mlag_interfaces: [Ethernet3, Ethernet4]
-    bgp_defaults:
-      #- update wait-install
-      - no bgp default ipv4-unicast
-      - distance bgp 20 200 200
-      #- graceful-restart restart-time 300
-      #- graceful-restart
+    mlag_interfaces:
+      - Ethernet3
+      - Ethernet4
   node_groups:
-    DC1_LEAF1:
-      bgp_as: 65101
+    - group: DC1_LEAF1
+      bgp_as: '65101'
       nodes:
-        DC1_LEAF1A:
+        - name: DC1_LEAF1A
           id: 1
           mgmt_ip: 172.100.100.4/24
-          uplink_switch_interfaces: [Ethernet1, Ethernet1]
-        DC1_LEAF1B:
+          uplink_switch_interfaces:
+            - Ethernet1
+            - Ethernet1
+        - name: DC1_LEAF1B
           id: 2
           mgmt_ip: 172.100.100.5/24
-          uplink_switch_interfaces: [Ethernet2, Ethernet2]
-    DC1_LEAF2:
-      bgp_as: 65102
+          uplink_switch_interfaces:
+            - Ethernet2
+            - Ethernet2
+    - group: DC1_LEAF2
+      bgp_as: '65102'
       nodes:
-        DC1_LEAF2A:
+        - name: DC1_LEAF2A
           id: 3
           mgmt_ip: 172.100.100.6/24
-          uplink_switch_interfaces: [Ethernet3, Ethernet3]
-    DC1_SVC1:
-      bgp_as: 65103
+          uplink_switch_interfaces:
+            - Ethernet3
+            - Ethernet3
+    - group: DC1_SVC1
+      bgp_as: '65103'
       evpn_services_l2_only: false
       virtual_router_mac_address: 00:00:00:00:00:01
       nodes:
-        DC1_SVC1A:
+        - name: DC1_SVC1A
           id: 4
           mgmt_ip: 172.100.100.7/24
-          uplink_switch_interfaces: [Ethernet4, Ethernet4]
-        DC1_SVC1B:
+          uplink_switch_interfaces:
+            - Ethernet4
+            - Ethernet4
+        - name: DC1_SVC1B
           id: 5
           mgmt_ip: 172.100.100.8/24
-          uplink_switch_interfaces: [Ethernet5, Ethernet5]
+          uplink_switch_interfaces:
+            - Ethernet5
+            - Ethernet5
