@@ -26,7 +26,7 @@
     - name: deploy configuration to device
       tags: [deploy]
       import_role:
-         name: arista.avd.eos_config_deploy_eapi
+        name: arista.avd.eos_config_deploy_eapi
     
     - name: Validate states on EOS devices
       tags: [verify, never]
