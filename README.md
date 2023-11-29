@@ -26,8 +26,8 @@
 
 This repository contains ansible playbooks which allow the user to quickly:
 
-1. Deploy cEOS-Lab Leaf Spine topology using [containerlab](https://containerlab.dev/).
-2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.sh/en/stable/)
+1. Deploy cEOS-Lab based Leaf Spine topology using [containerlab](https://containerlab.dev/).
+2. Configure the Leaf Spine Fabric using Arista Ansible [AVD](https://avd.arista.com/)
 
 The same AVD templates can also be used with vEOS-Lab and physical Lab switches with slight changes to lab files.
 
@@ -40,8 +40,8 @@ Clone the repository and ensure to have the required libraries and software inst
 #### AVD
 
 - Python 3.8 or above
-- `ansible-core` from 2.11.3 to 2.12.x
-- arista.avd ansible collection (3.0.0 or above)
+- Install `ansible-core` from 2.12.6 to 2.15.x excluding 2.13.0
+- [arista.avd](https://galaxy.ansible.com/ui/namespaces/arista/) ansible collection (3.0.0 or above)
 - containerlab (0.15 or above)
 - arista.avd requirements
 
@@ -51,7 +51,7 @@ Clone the repository and ensure to have the required libraries and software inst
 - Arista cEOS-Lab image (4.21.8M or above)
 - Alpine-host image (optional)
 
-For arista.avd installation please refer to the [official](https://avd.sh/en/stable/docs/installation/requirements.html) documenation.
+For arista.avd installation please refer to the [official](https://avd.arista.com/stable/docs/installation/collection-installation.html) documenation.
 
 For containerlab installation please refer to the [official](https://containerlab.dev/install/) documentation.
 
@@ -394,4 +394,5 @@ round-trip min/avg/max = 5.946/13.238/20.531 ms
 
 ## Upcoming
 
-CVX VxLAN Lab
+- CVX VxLAN Lab
+- Improved Wiki
