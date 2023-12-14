@@ -144,6 +144,7 @@ nav:
     - EVPN MPLS LDP All-Active Multihoming (L2EVPN): labs/mpls_ldp_l2evpn.md
     - EVPN All-Active Multihoming IRB with MPLS Underlay: labs/mpls_evpn_irb.md
   - Releases:
+    - v3.1.3: releases/v3.1.3.md
     - v3.1.2: releases/v3.1.2.md
     - v3.1.1: releases/v3.1.1.md
     - v3.1.0: releases/v3.1.0.md
