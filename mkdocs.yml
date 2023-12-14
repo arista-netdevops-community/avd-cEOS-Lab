@@ -1,0 +1,157 @@
+# Project Information
+site_name: AVD with cEOS-Lab
+site_author: Himanshu Singh
+site_description: Arista Validate Designs with cEOS-Lab
+copyright: Copyright &copy; 2019 - 2023 Arista Networks
+
+#Theme
+theme:
+  name: material
+  
+  # Reader modes
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: red
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: white
+      accent: lime
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  
+  # Fonts
+  font:
+    text: Google Sans
+    code: Fira Mono
+  
+  # Language
+  language: en
+
+  # Logo
+  icon:
+    logo: fontawesome/solid/jedi
+    repo: fontawesome/brands/github
+
+  #Navi
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.footer
+    - navigation.path
+    - navigation.indexes
+    - toc.follow
+    - navigation.top
+    - header.autohide
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - content.code.annotate
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+  - git-revision-date-localized:
+      enabled: true
+      type: date
+  - git-authors:
+      enabled: true
+
+# Social
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/UchihaItachiSama
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/himanshu-singh-225961119/
+
+# Repo
+repo_url: https://github.com/arista-netdevops-community/avd-cEOS-Lab
+repo_name: avd-cEOS-Lab
+
+# Mardown Extenions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - markdown.extensions.attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols:
+      fractions: false
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex
+  - pymdownx.magiclink
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+# TOC
+docs_dir: docs
+nav:
+  - Home: index.md
+  - Installation: install.md
+  - Getting Started: quickStart.md
+  - Reference: references.md
+  - Labs:
+    - EVPN Symmetric IRB (eBGP): labs/avd_sym_irb.md
+    - EVPN Symmetric IRB (iBGP): labs/avd_sym_irb_ibgp.md
+    - EVPN Asymmetric IRB: labs/avd_asym_irb.md
+    - EVPN Centralized Anycast Gateway: labs/avd_central_any_gw.md
+    - EVPN VXLAN All-active Multi-homing IRB: labs/avd_asym_multihoming.md
+    - EVPN Single-Active Multihoming Symmetric IRB: labs/avd_sym_sa_multihoming.md
+    - EVPN MPLS LDP All-Active Multihoming (L2EVPN): labs/mpls_ldp_l2evpn.md
+    - EVPN All-Active Multihoming IRB with MPLS Underlay: labs/mpls_evpn_irb.md
+  - Releases:
+    - v3.1.2: releases/v3.1.2.md
+    - v3.1.1: releases/v3.1.1.md
+    - v3.1.0: releases/v3.1.0.md
+    - v3.0.0: releases/v3.0.0.md
+    - v2.2.0: releases/v2.2.0.md
+    - v2.1.0: releases/v2.1.0.md
+    - v2.0.0: releases/v2.0.0.md
+    - v1.1.2: releases/v1.1.2.md
+
+extra_css:
+  - stylesheets/extra.css
