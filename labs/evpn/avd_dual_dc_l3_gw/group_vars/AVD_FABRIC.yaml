@@ -1,0 +1,75 @@
+---
+fabric_name: AVD_FABRIC
+
+underlay_routing_protocol: ebgp
+
+overlay_routing_protocol: ebgp
+
+evpn_vlan_aware_bundles: false
+
+# bgp peer groups passwords
+bgp_peer_groups:
+  ipv4_underlay_peers:
+    password: "AQQvKeimxJu+uGQ/yYvv9w=="
+  evpn_overlay_peers:
+      password: "q+VNViP5i4rVjW1cxFv2wA=="
+  mlag_ipv4_underlay_peer:
+      password: "vnEaG8gMeQf3d3cN6PktXQ=="
+
+# BGP defaults
+bgp_default_ipv4_unicast: false
+bgp_update_wait_install: false
+bgp_update_wait_for_convergence: false
+bgp_distance:
+  external_routes: 20
+  internal_routes: 200
+  local_routes: 200
+
+local_users:
+  - name: admin
+    privilege: 15
+    role: network-admin
+    sha512_password: "$6$7GTxsrRjnwheeKfR$zhJ8qycVjAJz41rf5JRSfWIzp93IL5WL7sMS/Taz1yfShz.MAnoajCf7R2n1/EZW7PN5QA3Huayl0lVQesBYN1"
+
+name_servers:
+  - 1.1.1.1
+  - 8.8.8.8
+
+ntp:
+  servers:
+  - name: time.google.com
+    preferred: true
+    vrf: MGMT
+    iburst: true
+
+service_routing_protocols_model: multi-agent
+
+custom_structured_configuration_spanning_tree:
+  mode: mstp
+
+ip_routing: true
+
+# hardcoding management0 for cEOS lab compatibility (default: Management1)
+mgmt_interface: Management0
+mgmt_gateway: 172.100.100.1
+mgmt_interface_vrf: MGMT
+
+# Management eAPI | Required for this Lab
+custom_structured_configuration_management_api_http:
+  https_ssl_profile: eAPI
+
+# Management security required for SSL profile with strong ciphers
+custom_structured_configuration_management_security:
+  ssl_profiles:
+    - name: eAPI
+      certificate:
+        file: eAPI.crt
+        key: eAPI.key
+      cipher_list: 'HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL'
+
+# Management GNMI | Optional
+#management_api_gnmi:
+#  enable_vrfs:
+#    MGMT:
+#  octa: true
+#  provider: eos-native
