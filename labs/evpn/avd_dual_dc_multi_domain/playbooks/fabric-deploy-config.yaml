@@ -2,7 +2,7 @@
   hosts: AVD_FABRIC
   tasks:
     - name: Generate EOS configuration Snapshots
-      tags: [snapshot, never]
+      tags: [snapshot]
       import_role:
         name: arista.avd.eos_snapshot
 
