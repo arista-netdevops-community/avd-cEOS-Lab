@@ -141,9 +141,12 @@ nav:
     - EVPN Centralized Anycast Gateway: labs/avd_central_any_gw.md
     - EVPN VXLAN All-active Multi-homing IRB: labs/avd_asym_multihoming.md
     - EVPN Single-Active Multihoming Symmetric IRB: labs/avd_sym_sa_multihoming.md
+    - EVPN VXLAN Dual DC L3 Gateway: labs/avd_dual_dc_l3_gw.md
+    - EVPN VXLAN Dual DC Multi-Domain: labs/avd_dual_dc_multi_domain.md 
     - EVPN MPLS LDP All-Active Multihoming (L2EVPN): labs/mpls_ldp_l2evpn.md
     - EVPN All-Active Multihoming IRB with MPLS Underlay: labs/mpls_evpn_irb.md
   - Releases:
+    - v3.1.4: releases/v3.1.4.md
     - v3.1.3: releases/v3.1.3.md
     - v3.1.2: releases/v3.1.2.md
     - v3.1.1: releases/v3.1.1.md

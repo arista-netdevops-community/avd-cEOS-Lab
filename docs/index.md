@@ -56,6 +56,20 @@ The repository currently contains the following prebuilt labs.
 
     ![Figure avd_asym_multihoming](./images/sa_sym_mh_v2.png)
 
+??? example "EVPN VXLAN Dual DC L3 Gateway"
+    eBGP Overlay and eBGP Underlay
+
+    2 Spines + 2 MLAG Leaf Pairs + 2 Border Leaves + 4 Clients (per DC)
+
+    ![Figure avd_dual_dc_l3_gw](./images/evpn-dual-dc-lab-colored.png)
+
+??? example "EVPN VXLAN Dual DC Multi-Domain"
+    eBGP Overlay and eBGP Underlay
+
+    2 Spines + 2 MLAG Leaf Pairs + 2 Border Leaves + 4 Clients (per DC)
+
+    ![Figure avd_dual_dc_multi_domain](./images/evpn-dual-dc-lab-colored.png)
+
 ??? example "EVPN MPLS LDP All-Active Multihoming (L2EVPN)"
     iBGP Overlay and MPLS Underlay
 

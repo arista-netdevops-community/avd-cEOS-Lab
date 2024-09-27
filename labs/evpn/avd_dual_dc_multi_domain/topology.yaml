@@ -5,10 +5,10 @@ topology:
     ceos:
       startup-config: ../../../ceos_lab_template/ceos.cfg.tpl
       image: ceosimage:4.32.0F
-      #exec:
-      #  - sleep 10
-      #  - FastCli -p 15 -c 'security pki key generate rsa 2048 eAPI.key'
-      #  - FastCli -p 15 -c 'security pki certificate generate self-signed eAPI.crt key eAPI.key generate rsa 2048 validity 30000 parameters common-name eAPI'
+      exec:
+        - sleep 10
+        - FastCli -p 15 -c 'security pki key generate rsa 2048 eAPI.key'
+        - FastCli -p 15 -c 'security pki certificate generate self-signed eAPI.crt key eAPI.key generate rsa 2048 validity 30000 parameters common-name eAPI'
     linux:
       image: alpine-host
   nodes:
